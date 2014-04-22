@@ -1,1 +1,1 @@
-# Night.js - a JavaScript library for latest browser
+# Night.js - modern JavaScript library for latest Chrome first, with jQuery/Zepto-like API
