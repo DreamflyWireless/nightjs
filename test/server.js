@@ -27,7 +27,8 @@ app = connect()
 
 http.createServer(app).listen(port)
 
-console.log('Listening on port ' + port)
+// TODO: auto open browser to run test
+console.log('Access http://localhost:' + port + '/test/static/index.html to run test')
 
 // helper functions
 function printUsage(){
