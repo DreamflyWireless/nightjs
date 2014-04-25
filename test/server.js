@@ -23,7 +23,7 @@ else{
 
 app = connect()
   .use(connect.logger('dev'))
-  .use(connect.static(__dirname + '/public'))
+  .use(connect.static(__dirname + '/..'))
 
 http.createServer(app).listen(port)
 
