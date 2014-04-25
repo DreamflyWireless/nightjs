@@ -27,6 +27,8 @@ app = connect()
 
 http.createServer(app).listen(port)
 
+console.log('Listening on port ' + port)
+
 // helper functions
 function printUsage(){
   var argv, spliter
