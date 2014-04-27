@@ -10,7 +10,14 @@
   <link rel="stylesheet" type="text/css" href="../lib/jasmine-2.0.0/jasmine.css">
 </head>
 <body>
-  <div id="fixtures"></div>
+  <div id="fixtures">
+    <p id="find1">
+      <span class="findme">1</span>
+      <span class="findme">2</span>
+      <b>3<span class="findme">4</span></b>
+      <span class="findme">5<span>6</span></span>
+    </p>
+  </div>
 
   <!-- jasmine js files -->
   <script type="text/javascript" src="../lib/jasmine-2.0.0/jasmine.js"></script>
@@ -18,7 +25,9 @@
   <script type="text/javascript" src="../lib/jasmine-2.0.0/boot.js"></script>
 
   <!-- source files -->
-  <script type="text/javascript" src="/src/night.js"></script>
+  <script>
+    document.write('<script src="/src/night.js?t=' + Date.now() + '"></scr' + 'ipt>')
+  </script>
 
   <!-- spec files -->
   <script type="text/javascript" src="spec.js"></script>
