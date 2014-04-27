@@ -9,6 +9,7 @@
 * Put a single semicolon _before_ statements that start with `(` , `[` , `+` , `-` , `/`
   (see above article as for why it's needed)
 * Start with comma per line when useing one `var` to declare mutiple variables at mutiple lines
+* 65 charactors per line at most
 * Remove any trailing whitespace from the end of lines
 * Add one more blank line at the end of files
 * `function name(){ }` for named functions
