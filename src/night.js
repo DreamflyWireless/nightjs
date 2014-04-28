@@ -68,7 +68,7 @@ var night = (function(window){
       if( context ){
         if( $.isHTMLDocument(context) &&
           $.isElement(context) &&
-          $.isN(context) )
+          night.isN(context) )
           return $(context).find(selector)
         else{
           console.error('Second argument is invalide')
@@ -79,7 +79,7 @@ var night = (function(window){
       else dom = night.qsa(document, selector)
     }
 
-    else if( $.isN(selector) )
+    else if( night.isN(selector) )
       return selector
 
     else if( $.isElement(selector) )
@@ -162,6 +162,8 @@ var night = (function(window){
   }
 
   // Start: static method on `$`
+  $.isArray = Array.isArray
+
   ;['Arguments', 'Function', 'String', 'Number', 'Date',
   'RegExp', 'NodeList', 'HTMLCollection', 'HTMLDocument']
   .forEach(function(name){
@@ -170,7 +172,6 @@ var night = (function(window){
     }
   }, $)
 
-  $.isArray = Array.isArray
 
   $.isElement = function(obj){
     return !!(obj && obj.nodeType === ELEMENT_NODE)
