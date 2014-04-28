@@ -1,5 +1,5 @@
 #fixtures {
-  position: absolute;
+  position: fixed;
   bottom: -10000px;
   right: -10000px;
 }
