@@ -23,15 +23,33 @@ describe('Static methods on `$`', function(){
   })
 })
 
-describe('`$()` factory always return night collection which is instance of `$.night.N` and `Array`', function(){
+describe('`$()` factory function always return night collection which is instance of `$.night.N` and `Array`, and never return the same even input the same', function(){
+  var foo
+  // TODO: check `selector` property on night collection
+
+  beforeEach(function(){
+    foo = {
+      '$': $
+    }
+    spyOn(foo, '$').and.callThrough
+  })
+
   it('`$()`', function(){
-    var $night = $()
+    var $night
+    expect(function(){
+      $night = $()
+    }).not.toThrowError()
     expect($night instanceof $.night.N).toBe(true)
     expect($night instanceof Array).toBe(true)
+    expect($night).not.toBe($())
   })
   it('`$(selector)`', function(){
-    var $el = $('#some_element')
+    var $el
       , el = document.getElementById('some_element')
+
+    expect(function(){
+      $el = $('#some_element')
+    }).not.toThrowError()
 
     expect($el instanceof $.night.N).toBe(true)
     expect($el instanceof Array).toBe(true)
@@ -43,39 +61,83 @@ describe('`$()` factory always return night collection which is instance of `$.n
     expect($('p > span.yay').length).toBe(1)
 
     expect($el[0]).toBe(el)
+    expect($el).not.toBe($('#some_element'))
   })
   it('`$(nightCollection)`', function(){
-    var $el = $('#some_element')
-    expect($($el) instanceof $.night.N).toBe(true)
-    expect($($el) instanceof Array).toBe(true)
-    expect($($el)[0]).toBe($el[0])
+    var $el, $$el
+    expect(function(){
+      $el = $('#some_element')
+      $$el = $($el)
+    }).not.toThrowError()
+    expect($$el instanceof $.night.N).toBe(true)
+    expect($$el instanceof Array).toBe(true)
+    expect($$el[0]).toBe($el[0])
+    expect($$el).not.toBe($($el))
   })
   it('`$(element)`', function(){
     var el = document.getElementById('some_element')
-      , $el = $(el)
+      , $el
+    expect(function(){
+      $el = $(el)
+    }).not.toThrowError()
     expect($el instanceof $.night.N)
     expect($el instanceof Array)
     expect($el[0]).toBe(el)
+    expect($el).not.toBe($(el))
   })
   xit('`$(nodeList)`', function(){
 
   })
-  it('Be compatible with `$(specialInput)`', function(){
-    expect($(null) instanceof $.night.N).toBe(true)
-    expect($(undefined) instanceof $.night.N).toBe(true)
-    expect($(false) instanceof $.night.N).toBe(true)
-    expect($('') instanceof $.night.N).toBe(true)
-    
-    expect($(null).length).toBe(0)
-    expect($(undefined).length).toBe(0)
-    expect($(false).length).toBe(0)
-    expect($('').length).toBe(0)
+  describe('`$(specialInput)`', function(){
+    var $null
+      , $undefined
+      , $false
+      , $emptyStr
+      , $wrongSelector
+      , $wrongSelector2
+      , $nonexistentEl
 
-    expect($(null)).not.toBe($(null))
+    it('is compatible with falsy input or selector of nonexistent element', function(){
+      expect(function(){
+        $null = $(null)
+        $undefined = $(undefined)
+        $false = $(false)
+        $emptyStr = $('')
+        $nonexistentEl = $('#nonexistentEl')
+      }).not.toThrowError()
+
+      expect($null instanceof $.night.N).toBe(true)
+      expect($undefined instanceof $.night.N).toBe(true)
+      expect($false instanceof $.night.N).toBe(true)
+      expect($emptyStr instanceof $.night.N).toBe(true)
+      expect($nonexistentEl instanceof $.night.N).toBe(true)
+
+      expect($null.length).toBe(0)
+      expect($undefined.length).toBe(0)
+      expect($false.length).toBe(0)
+      expect($emptyStr.length).toBe(0)
+      expect($nonexistentEl.length).toBe(0)
+
+      expect($null).not.toBe($(null))
+      expect($undefined).not.toBe($(undefined))
+      expect($false).not.toBe($(false))
+      expect($emptyStr).not.toBe($(''))
+      expect($nonexistentEl).not.toBe($('#nonexistent'))
+    })
+
+    it('throws error if input invalid but truthy selector', function(){
+      expect(function(){
+        $('#')
+      }).toThrowError()
+
+      expect(function(){
+        $('.')
+      }).toThrowError()
+    })
   })
 })
 
-describe('.toString()', function(){
+describe('`.toString()`', function(){
   it('return a string of \'[object Night]\'', function(){
     expect($().toString()).toBe('[object Night]')
   })

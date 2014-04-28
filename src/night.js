@@ -22,6 +22,7 @@ var night = (function(window){
     , night = {}
     , $
 
+  // @public
   // @example $()
   //
   // @example $(selector, context)
@@ -63,7 +64,6 @@ var night = (function(window){
 
     else if(typeof selector === 'string'){
       selector = selector.trim()
-      dom = night.qsa(document, selector)
 
       if( context ){
         if( $.isHTMLDocument(context) &&
@@ -79,15 +79,17 @@ var night = (function(window){
       else dom = night.qsa(document, selector)
     }
 
+    // Shallow copy to create a new night collection
     else if( night.isN(selector) )
-      return selector
+      return new night.N( selector.slice() )
 
     else if( $.isElement(selector) )
       dom = [selector], selector = null
 
     // If first argument is an instance of `NodeList` or
     // `HTMLCollection`, conver it to array
-    else if( $.isNodeList(selector) || $.isHTMLCollection(selector) )
+    else if( $.isNodeList(selector) ||
+      $.isHTMLCollection(selector) )
       selector = slice.call(selector)
 
     // If first argument is array, filter out items that are
@@ -120,6 +122,7 @@ var night = (function(window){
     return nightCollection
   }
 
+  // @public
   // Night collection's prototype.
   // Use `$.fn` as quick accessing and public API for
   // `night.N.prototype`
@@ -129,6 +132,7 @@ var night = (function(window){
   // `$.fn`, and `$.fn` inherit `Array`
   Object.setPrototypeOf($.fn, arrProto)
 
+  // @public
   // Follow the best practice from _JavaScript: the Definitive
   // Guide_ 6th edition: Core JavaScript Reference ->
   // Object.toString()
@@ -161,7 +165,7 @@ var night = (function(window){
     return this
   }
 
-  // Start: static method on `$`
+  // Start: static methods on `$`
   $.isArray = Array.isArray
 
   ;['Arguments', 'Function', 'String', 'Number', 'Date',
@@ -172,9 +176,12 @@ var night = (function(window){
     }
   }, $)
 
+  $.isElement = function(el){
+    return !!(el && el.nodeType === ELEMENT_NODE)
+  }
 
-  $.isElement = function(obj){
-    return !!(obj && obj.nodeType === ELEMENT_NODE)
+  $.isDocument = function(doc){
+    return !!(doc && doc.nodeType === doc.DOCUMENT_NODE)
   }
 
   // Treat object as what is not primitive
