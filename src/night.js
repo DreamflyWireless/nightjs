@@ -60,7 +60,7 @@ var night = (function(window){
     var dom
     // Still return an empty night collection to make
     // subsequent processing work
-    if(!selector) return new night.N()
+    if(!selector) return night.N()
 
     else if(typeof selector === 'string'){
       selector = selector.trim()
@@ -72,7 +72,7 @@ var night = (function(window){
           return $(context).find(selector)
         else{
           console.error('Second argument is invalide')
-          return new night.N()
+          return night.N()
         }
       }
 
@@ -81,7 +81,7 @@ var night = (function(window){
 
     // Shallow copy to create a new night collection
     else if( night.isN(selector) )
-      return new night.N( selector.slice() )
+      return night.N( selector.slice() )
 
     else if( $.isElement(selector) )
       dom = [selector], selector = null
@@ -103,10 +103,10 @@ var night = (function(window){
       return $(document).ready(selector)
 
     // Wrap as night collection from the array of nodes found
-    return new night.N(dom, selector)
+    return night.N(dom, selector)
   }
 
-  // Constructor for night collection
+  // Factory function for creating night collection
   // @param elementArray {Array|undefined} array consist of
   // DOM elements
   // @param [selector] {String} selector for `dom`
