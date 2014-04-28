@@ -17,21 +17,20 @@ var night = (function(window){
     , READY_REG = /complete|loaded|interactive/
     , NIGHT_INSTANCE_STR = '[object Night]'
 
-    // APIs on this namespace are exported for deeply
-    // customizing night.js
-    , night = {}
-    , $
+    // Namespace in which define API for deeply customizing
+    // this library
+    , ns = {}
 
   // @public
   // @example $()
   //
   // @example $(selector, context)
   // @param selector {String} a CSS selector
-  // @param [context] {HTMLDocument|Element|night.N} context in
+  // @param [context] {HTMLDocument|Element|Night} context in
   // which query elements
   //
   // @example $(nightCollection)
-  // @param nightCollection {night.N} night collection
+  // @param nightCollection {Night} night collection
   //
   // @example $(element)
   // @param element {Element} DOM element
@@ -55,12 +54,12 @@ var night = (function(window){
   // @param htmlFragment
   // @param [attributes]
   //
-  // @return {night.N} a night collection
-  $ = function(selector, context){
+  // @return {Night} a night collection
+  function $(selector, context){
     var dom
     // Still return an empty night collection to make
     // subsequent processing work
-    if(!selector) return night.N()
+    if(!selector) return Night()
 
     else if(typeof selector === 'string'){
       selector = selector.trim()
@@ -68,20 +67,20 @@ var night = (function(window){
       if( context ){
         if( $.isHTMLDocument(context) &&
           $.isElement(context) &&
-          night.isN(context) )
+          ns.isNight(context) )
           return $(context).find(selector)
         else{
           console.error('Second argument is invalide')
-          return night.N()
+          return Night()
         }
       }
 
-      else dom = night.qsa(document, selector)
+      else dom = ns.qsa(document, selector)
     }
 
     // Shallow copy to create a new night collection
-    else if( night.isN(selector) )
-      return night.N( selector.slice() )
+    else if( ns.isNight(selector) )
+      return Night( selector.slice() )
 
     else if( $.isElement(selector) )
       dom = [selector], selector = null
@@ -103,15 +102,15 @@ var night = (function(window){
       return $(document).ready(selector)
 
     // Wrap as night collection from the array of nodes found
-    return night.N(dom, selector)
+    return Night(dom, selector)
   }
 
   // Factory function for creating night collection
   // @param elementArray {Array|undefined} array consist of
   // DOM elements
   // @param [selector] {String} selector for `dom`
-  // @return {night.N}
-  night.N = function(elementArray, selector){
+  // @return {Night}
+  function Night(elementArray, selector){
     var nightCollection = elementArray || []
     // Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf
     // Make element array to be night collection by using
@@ -121,12 +120,13 @@ var night = (function(window){
     nightCollection.selector = selector || ''
     return nightCollection
   }
+  ns.Night = Night
 
   // @public
   // Night collection's prototype.
   // Use `$.fn` as quick accessing and public API for
-  // `night.N.prototype`
-  $.fn = night.N.prototype
+  // `Night.prototype`
+  $.fn = Night.prototype
   // The prototype of night collection's prototype is array's
   // prototype, in other words, night collection inherit
   // `$.fn`, and `$.fn` inherit `Array`
@@ -191,7 +191,7 @@ var night = (function(window){
   // End: static method on `$`
 
   // TODO: optimize for special cases, eg. `#id`, `.class`
-  night.qsa = function(element, selector){
+  ns.qsa = function(element, selector){
     switch(element.nodeType){
       case ELEMENT_NODE:
       case DOCUMENT_NODE:
@@ -201,25 +201,25 @@ var night = (function(window){
     }
   }
 
-  night.isN = function(obj){
+  ns.isNight = function(obj){
     return obj.toString() === NIGHT_INSTANCE_STR
   }
 
-  night.find = function(selector){
+  ns.find = function(selector){
     var result
     // Optimize certain case
     if(this.length === 1)
-      result = $( night.qsa(this[0], selector) )
+      result = $( ns.qsa(this[0], selector) )
     else
       result = this.map(function(){
-        return night.qsa(this, selector)
+        return ns.qsa(this, selector)
       })
     return result
   }
 
-  // Export internal API in the `$.night` namespace to enable
-  // deeply customizing night.js as users of night.js want
-  $.night = night
+  // Export API in the `$._inner` namespace to enable deeply
+  // customizing this library as users want
+  $._inner = ns
 
   return $
 })(window)

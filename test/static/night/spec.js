@@ -23,7 +23,7 @@ describe('Static methods on `$`', function(){
   })
 })
 
-describe('`$()` factory function always return night collection which is instance of `$.night.N` and `Array`, and never return the same even input the same', function(){
+describe('`$()` factory function always return night collection which is instance of `$._inner.Night` and `Array`, and never return the same even input the same', function(){
   var foo
   // TODO: check `selector` property on night collection
 
@@ -39,7 +39,7 @@ describe('`$()` factory function always return night collection which is instanc
     expect(function(){
       $night = $()
     }).not.toThrowError()
-    expect($night instanceof $.night.N).toBe(true)
+    expect($night instanceof $._inner.Night).toBe(true)
     expect($night instanceof Array).toBe(true)
     expect($night).not.toBe($())
   })
@@ -51,7 +51,7 @@ describe('`$()` factory function always return night collection which is instanc
       $el = $('#some_element')
     }).not.toThrowError()
 
-    expect($el instanceof $.night.N).toBe(true)
+    expect($el instanceof $._inner.Night).toBe(true)
     expect($el instanceof Array).toBe(true)
 
     expect($el.length).toBe(1)
@@ -69,7 +69,7 @@ describe('`$()` factory function always return night collection which is instanc
       $el = $('#some_element')
       $$el = $($el)
     }).not.toThrowError()
-    expect($$el instanceof $.night.N).toBe(true)
+    expect($$el instanceof $._inner.Night).toBe(true)
     expect($$el instanceof Array).toBe(true)
     expect($$el[0]).toBe($el[0])
     expect($$el).not.toBe($($el))
@@ -80,7 +80,7 @@ describe('`$()` factory function always return night collection which is instanc
     expect(function(){
       $el = $(el)
     }).not.toThrowError()
-    expect($el instanceof $.night.N)
+    expect($el instanceof $._inner.Night)
     expect($el instanceof Array)
     expect($el[0]).toBe(el)
     expect($el).not.toBe($(el))
@@ -106,11 +106,11 @@ describe('`$()` factory function always return night collection which is instanc
         $nonexistentEl = $('#nonexistentEl')
       }).not.toThrowError()
 
-      expect($null instanceof $.night.N).toBe(true)
-      expect($undefined instanceof $.night.N).toBe(true)
-      expect($false instanceof $.night.N).toBe(true)
-      expect($emptyStr instanceof $.night.N).toBe(true)
-      expect($nonexistentEl instanceof $.night.N).toBe(true)
+      expect($null instanceof $._inner.Night).toBe(true)
+      expect($undefined instanceof $._inner.Night).toBe(true)
+      expect($false instanceof $._inner.Night).toBe(true)
+      expect($emptyStr instanceof $._inner.Night).toBe(true)
+      expect($nonexistentEl instanceof $._inner.Night).toBe(true)
 
       expect($null.length).toBe(0)
       expect($undefined.length).toBe(0)
