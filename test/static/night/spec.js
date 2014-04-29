@@ -63,6 +63,8 @@ describe('`$()` factory function always return night collection which is instanc
     expect($el[0]).toBe(el)
     expect($el).not.toBe($('#some_element'))
   })
+  // TODO
+  xit('`$(selector, context)`', function(){})
   it('`$(nightCollection)`', function(){
     var $el, $$el
     expect(function(){
