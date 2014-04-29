@@ -165,6 +165,19 @@ var night = (function(window){
     return this
   }
 
+  $.fn.find = function(selector){
+    var result
+    // Optimize certain case
+    if(this.length === 1)
+      result = $( ns.query(this[0], selector) )
+    else
+      result = this.map(function(){
+        return ns.query(this, selector)
+      })
+    return result
+  }
+
+
   // Start: static methods on `$`
   $.isArray = Array.isArray
 
@@ -205,18 +218,6 @@ var night = (function(window){
 
   ns.isNight = function(obj){
     return obj.toString() === NIGHT_INSTANCE_STR
-  }
-
-  ns.find = function(selector){
-    var result
-    // Optimize certain case
-    if(this.length === 1)
-      result = $( ns.query(this[0], selector) )
-    else
-      result = this.map(function(){
-        return ns.query(this, selector)
-      })
-    return result
   }
 
   // Export API in the `$._inner` namespace to enable deeply
