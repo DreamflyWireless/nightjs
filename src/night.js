@@ -75,7 +75,7 @@ var night = (function(window){
         }
       }
 
-      else dom = ns.qsa(document, selector)
+      else dom = ns.query(document, selector)
     }
 
     // Shallow copy to create a new night collection
@@ -190,8 +190,10 @@ var night = (function(window){
   }
   // End: static method on `$`
 
+  // This library's DOM query engin
+  // @param element {Element|Document}
   // TODO: optimize for special cases, eg. `#id`, `.class`
-  ns.qsa = function(element, selector){
+  ns.query = function(element, selector){
     switch(element.nodeType){
       case ELEMENT_NODE:
       case DOCUMENT_NODE:
@@ -209,10 +211,10 @@ var night = (function(window){
     var result
     // Optimize certain case
     if(this.length === 1)
-      result = $( ns.qsa(this[0], selector) )
+      result = $( ns.query(this[0], selector) )
     else
       result = this.map(function(){
-        return ns.qsa(this, selector)
+        return ns.query(this, selector)
       })
     return result
   }
