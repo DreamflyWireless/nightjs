@@ -217,6 +217,18 @@ var night = (function(window){
     return obj.toString() === NIGHT_INSTANCE_STR
   }
 
+  ns.matches = function(element, selector){
+    var matchesSelector
+    if(!selector || !element || element.nodeType !== ELEMENT_NODE)
+      return false
+    return (
+      element.matchesSelector ||
+      element.webkitMatchesSelector ||
+      element.mozMatchesSelector ||
+      element.oMatchesSelector
+    ).call(element, selector)
+  }
+
   // Export API in the `$._inner` namespace to enable deeply
   // customizing this library as users want
   $._inner = ns
