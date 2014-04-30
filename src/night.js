@@ -148,9 +148,6 @@ var night = (function(window){
       this[index >= 0 ? index : index + this.length]
   }
 
-  // TODO
-  $.fn.on = function(){}
-
   $.fn.ready = function(callback){
     // `regExp.test()` is faster than `switch`
     // Ref: http://jsperf.com/regexp-test-vs-switch
