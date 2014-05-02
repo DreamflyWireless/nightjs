@@ -174,6 +174,35 @@ var night = (function(window){
     return result
   }
 
+  /**
+  @example .closest(selector[, context])
+  @param selector {String}
+  @param [context] {Element}
+
+  @example .clisest(element[, context])
+  @param element {Element}
+  @param [context] {Element}
+
+  @example .closest(nightCollection[, context])
+  @param nightCollection {Night}
+  @param [context] {Element}
+  **/
+  $.fn.closest = function(selector, context){
+    var matches = ns.matches
+      , result
+    result = this.map(function(element){
+      var currentNode = element
+      while( !matches(currentNode, selector) ){
+        if(currentNode === context) return
+        currentNode = currentNode.parentNode
+        if(!currentNode) return
+      }
+      return currentNode
+    })
+    // `$()` would filter out items that are not DOM element
+    return $(result)
+  }
+
 
   // Start: static methods on `$`
   $.isArray = Array.isArray
